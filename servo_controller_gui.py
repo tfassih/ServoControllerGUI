@@ -24,7 +24,7 @@ class ServoControllerGUI:
 
         ttk.Button(self.main_frame, text="↻", command=self.refresh_ports, width=3).grid(row=0, column=3)
 
-        ttk.Label(self.main_frame, text="Servo A", font=('Arial', 12, 'bold')).grid(row=1, column=0, columnspac=2, pady=10)
+        ttk.Label(self.main_frame, text="Servo A", font=('Arial', 12, 'bold')).grid(row=1, column=0, columnspan=2, pady=10)
         self.servo_a_scale = ttk.Scale(self.main_frame, from_=0, to=180, orient=tk.HORIZONTAL,
                                        command= lambda v: self.update_angle_label('A', v))
         self.servo_a_scale.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E))
@@ -78,7 +78,8 @@ class ServoControllerGUI:
             return
 
         angle = int(self.servo_a_scale.get() if servo == 'A' else self.servo_b_scale.get())
-        command = f"S{servo}:{angle}\n"
+        command = f"{servo}{angle}"
+        print(command)
 
         try:
             self.serial_connection.write(command.encode())
